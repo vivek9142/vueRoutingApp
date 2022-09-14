@@ -1,20 +1,22 @@
 <template>
   <the-navigation @set-page="setActivePage"></the-navigation>
   <main>
-    <component :is="activePage"></component>
+    <!-- <component :is="activePage"></component> -->
+    <!-- all updates related to url change will be updated here -->
+    <router-view></router-view>
   </main>
 </template>
 
 <script>
-import TeamsList from './components/teams/TeamsList.vue';
-import UsersList from './components/users/UsersList.vue';
+// import TeamsList from './components/teams/TeamsList.vue';
+// import UsersList from './components/users/UsersList.vue';
 import TheNavigation from './components/nav/TheNavigation.vue';
 
 export default {
   components: {
     TheNavigation,
-    TeamsList,
-    UsersList,
+    // TeamsList,
+    // UsersList,
   },
   data() {
     return {
