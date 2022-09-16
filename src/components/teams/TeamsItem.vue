@@ -2,13 +2,15 @@
   <li>
     <h3>{{ name }}</h3>
     <div class="team-members">{{ memberCount }} Members</div>
-    <a href="#">View Members</a>
+    <!-- adding dynamic link  -->
+    <router-link :to="'/teams/'+ id ">View Members</router-link>
   </li>
 </template>
 
 <script>
 export default {
-  props: ['name', 'memberCount'],
+  // adding id so we can add it in link to access it in team members page
+  props: ['id','name', 'memberCount'],
 };
 </script>
 
