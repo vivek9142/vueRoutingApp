@@ -10,9 +10,6 @@ const router = createRouter({
   routes: [
     { path: '/teams', component: TeamsList },
     { path: '/users', component: UsersList },
-    /*there is another config we can add here link active class which we can change 
-    but default is router-link-active and router-link-exact-active*/
-    // linkActiveClass:'active'
   ],
 });
 
