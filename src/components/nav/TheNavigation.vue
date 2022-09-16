@@ -3,26 +3,20 @@
     <nav>
       <ul>
         <li>
-          <button @click="setActivePage('teams-list')">Teams</button>
+          <!-- <button @click="setActivePage('teams-list')">Teams</button> -->
+          <!-- change button with router-link a tag will render in app mounted state -->
+          <router-link to="/teams">Teams</router-link>
         </li>
         <li>
-          <button @click="setActivePage('users-list')">Users</button>
+          <!-- <button @click="setActivePage('users-list')">Users</button> -->
+          <router-link to="/users">Users</router-link>
         </li>
       </ul>
     </nav>
   </header>
 </template>
 
-<script>
-export default {
-  emits: ['set-page'],
-  methods: {
-    setActivePage(page) {
-      this.$emit('set-page', page);
-    },
-  },
-};
-</script>
+
 
 <style scoped>
 header {
@@ -48,9 +42,9 @@ ul {
 li {
   margin: 0 2rem;
 }
-
-button {
-  font: inherit;
+/* replace button with a tag */
+a {
+  text-decoration: none;
   background: transparent;
   border: 1px solid transparent;
   cursor: pointer;
@@ -59,8 +53,13 @@ button {
   display: inline-block;
 }
 
-button:hover,
-button:active {
+a:hover,
+a:active,
+/* router link active is class attached to active link in app active link will be active also 
+when relative added versions of link are entered e.g /users/1323.
+there is another class attached which is router-link-exact-active this will be active 
+when the exact link is active*/
+a.router-link-active {
   color: #f1a80a;
   border-color: #f1a80a;
   background-color: #1a037e;

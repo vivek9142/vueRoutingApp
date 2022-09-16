@@ -5,21 +5,18 @@ import App from './App.vue';
 import TeamsList from './components/teams/TeamsList.vue';
 import UsersList from './components/users/UsersList.vue';
 
-//createWebHistory uses web browser traditional history
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // component is rendered when specific path is visited
     { path: '/teams', component: TeamsList },
     { path: '/users', component: UsersList },
+    /*there is another config we can add here link active class which we can change 
+    but default is router-link-active and router-link-exact-active*/
+    // linkActiveClass:'active'
   ],
 });
 
 const app = createApp(App);
-
-/*This is a built in method,which in the end allows us to connect 
-our view app, with a third party package,with some other 
-functionality. */
 
 app.use(router);
 
