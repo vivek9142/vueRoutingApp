@@ -11,36 +11,14 @@ export default {
   props: ['id','name', 'memberCount'],
   computed:{
     teamMembersLink(){
-    //  return '/teams/'+ this.id;
-    // 2- instead of passing string we can pass object
-    // return {path: '/teams' + this.id};
-    // 3- this we did before but we can add name to route and use it here 
+      // you can also add query parameters to url params 
+      // /teams/t1?sort=asc
+      return {name: 'team-members', params:{ teamId: this.id }, query:{sort:'asc'}} 
 
-    return {name: 'team-members', params:{ teamId: this.id }}
-
-    /*
-    5- let's say team instead of teams, then you don't need to go to this team item component,
-    and update the path everywhere where you used it, instead, the name didn't change.
-    So you don't need to update anything here, and you can still conveniently change the path,
-    how often you want. That's why navigating by name instead of by path, might be a useful pattern,
-    */
     }
   }
 };
 </script>
-
-/*
-1 - Now imagine a bigger view application where you have dozens, or maybe even hundreds of different 
-routes some routes deeply nested in our routes. You can also have multiple levels of nesting,
-you could have children here on this nested route as well.
-
-So imagine an application where you have a lot of such nested routes. If you have such an app,
-constructing links like recurrently doing it, like this, can quickly become cumbersome,
-you always have to add the full path here, and build it out like this.
-You have to build such a long string, which describes the path you wanna navigate to.
-Now, because this can get cumbersome, the view router offers two very useful features,
-which make building such links, which we pass to router link more convenient.
-*/
 
 <style scoped>
 li {

@@ -44,7 +44,9 @@ export default {
     }
   },
   created(){
+    //2 - you can take query params from where it was triggered to this comp and use it here
     this.loadTeamMembers(this.teamId);
+    console.log(this.$route.query); // {sort:'asc'}
   },
   watch:{
     teamId(newId){

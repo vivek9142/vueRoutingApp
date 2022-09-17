@@ -11,8 +11,6 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', redirect: '/teams' },
-    // 4 - we can assign names to routes n then use it in routes for linking urls
-    // we can also add names for nested routes
     {
       name: 'teams',
       path: '/teams',
