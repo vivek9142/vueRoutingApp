@@ -11,8 +11,6 @@ export default {
   props: ['id','name', 'memberCount'],
   computed:{
     teamMembersLink(){
-      // you can also add query parameters to url params 
-      // /teams/t1?sort=asc
       return {name: 'team-members', params:{ teamId: this.id }, query:{sort:'asc'}} 
 
     }
