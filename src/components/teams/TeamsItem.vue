@@ -2,7 +2,6 @@
   <li>
     <h3>{{ name }}</h3>
     <div class="team-members">{{ memberCount }} Members</div>
-    <!-- adding dynamic link  -->
     <router-link :to="'/teams/'+ id ">View Members</router-link>
   </li>
 </template>

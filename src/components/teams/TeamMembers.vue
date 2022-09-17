@@ -9,6 +9,10 @@
         :role="member.role"
       ></user-item>
     </ul>
+    <!-- if you're another route another than team 2 members it will not do anything
+      except changing url
+     -->
+    <router-link to='/teams/t2'>Go to team 2</router-link>
   </section>
 </template>
 
@@ -26,11 +30,9 @@ export default {
       members: [],
     };
   },
-  // this will run when component is created before it is shown on the screen 
-  created(){
-    // this.$route.path  // will get the whole route - /teams/t1
-    const teamId = this.$route.params.teamId; //enter the variable name defined in router as param ,
-    // it will its value
+  methods:{
+    loadTeamMembers(route){
+      const teamId = route.params.teamId;
     const selectedTeam = this.teams.find(team => team.id === teamId);
 
     const members = selectedTeam.members;
@@ -42,6 +44,32 @@ export default {
     }
     this.members = selectedMembers;
     this.teamName = selectedTeam.name;
+    }
+  },
+  created(){
+    /* the route param change in every url change so we can watch on changes in route */
+    // will add this in new method so that we can change routein url change
+
+    // const teamId = this.$route.params.teamId;
+    // const selectedTeam = this.teams.find(team => team.id === teamId);
+
+    // const members = selectedTeam.members;
+    // const selectedMembers = [];
+
+    // for(const member of members){
+    //   const selectedUser = this.users.find(user => user.id === member);
+    //   selectedMembers.push(selectedUser);
+    // }
+    // this.members = selectedMembers;
+    // this.teamName = selectedTeam.name;
+
+    this.loadTeamMembers(this.$route);
+  },
+  watch:{
+    /*now we're watching changes in routes*/
+    $route(newRoute){
+      this.loadTeamMembers(newRoute);
+    }
   }
 };
 </script>
