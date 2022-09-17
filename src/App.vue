@@ -1,6 +1,13 @@
 <template>
   <the-navigation></the-navigation>
   <main>
+    <!--4-  Now the router-view component, which we use is app view is our top most router-view 
+    component we have in this entire app and it's only responsible for the root routes. 
+
+  So, for the routes directly registered in the routes array. So, this child route cannot be 
+  rendered into this router-view.Instead you now need to add a second Router Vue in the component 
+  where this route is defined as a child component. -->
+
     <router-view></router-view>
   </main>
 </template>

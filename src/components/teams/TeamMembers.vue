@@ -30,7 +30,6 @@ export default {
   },
   methods:{
     loadTeamMembers(teamId){
-      // const teamId = route.params.teamId;
     const selectedTeam = this.teams.find(team => team.id === teamId);
 
     const members = selectedTeam.members;
@@ -48,7 +47,6 @@ export default {
     this.loadTeamMembers(this.teamId);
   },
   watch:{
-    //2- adding new watch for teamid 
     teamId(newId){
       this.loadTeamMembers(newId);
     }
