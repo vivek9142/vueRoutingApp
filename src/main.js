@@ -10,37 +10,19 @@ import TeamsFooter from './components/teams/TeamsFooter.vue';
 import UsersFooter from './components/users/UserFooter.vue';
 
 /*
-1- I now wanna move on to another feature, which can be useful in some applications.
-And that would be multiple router views on the same level. We already have multiple router views in 
-this demo app. 
+1- Let's start with controlling the scrolling behavior.Well, let's say we're on the Teams page,
+we load our team here and then I scroll down so that I can load the Client Consulting team.
+If I click that, of course you component updates, but I have to scroll up there to see that.
+Maybe we want to scroll up there automatically, when we switch the route here.
 
-We have one in App vue and we have one in the team's list component
-for the nested routes that belong to the route that loads the team's list component.
+That could be something we might wanna do, in general, maybe. Whenever we switch a route,
+we wanna scroll to top so that the user always sees the full new page and isn't stuck somewhere 
+down the page. And that's something we can add with the vue router.
 
-But you can also have multiple router views on the same level.So for the same set of routes,
-for example, here in App vue, we could have a footer element let's see,
-but that's not mandatory. But in there we could have another router view.
-Now, of course, having two router views on the same level, which are there for dealing with the 
-same routes we now just see that every page has loaded twice.
+In main js, where we create our router, besides registering all those routes
+and then setting some global conflict like the link active class.
+You can also add a scroll behavior property.
 
-Of course, because we have two router views. That's probably not the behavior you want.
-But instead multiple router views on the same level, allow you to add another cool functionality.
-
-the main thing is that you have two different components that should be loaded as a footer,
-depending on whether you're in the teams area or the users area of pages.
-And that could absolutely be a requirement you have in your app.
-
-With the view router, that's easy to implement. In your route config,
-you can register more than one component per route. Here, for example, on teams,
-instead of just having one component here, we can add components.
-this now takes an object. And in this object, you can now define key value piers where the keys
-identify different router views, and the values are the components that should be loaded 
-into this router view.
-
-And that now works if you give those router views names, just as you can give names to slots.
-We could give this router view in the footer, a name of footer, but the name is up to you.
-We could also give this router view a name,but just as we have slots, you are allowed to have 
-one unnamed router view on the same level, which will then be the default router view.
 */
 
 const router = createRouter({
@@ -50,8 +32,6 @@ const router = createRouter({
     {
       name: 'teams',
       path: '/teams',
-      // component: TeamsList,
-      //4-  setting components for routing components based on name for Teams page.
       components: {
         default: TeamsList,
         footer: TeamsFooter,
@@ -65,7 +45,6 @@ const router = createRouter({
         },
       ],
     },
-    //5- setting components for routing components based on name for Users page.
     {
       path: '/users',
       components: {
@@ -75,6 +54,33 @@ const router = createRouter({
     },
     { path: '/:notFound(.*)', component: NotFound },
   ],
+  //2- adding scrollBehaviour
+  scrollBehavior(to, from, savedPosition) {
+    // console.log(to, from, savedPosition);
+    /*
+    3 - saved position is null here, because saved position is only set,
+    if you're using the back button. Then you see saved position is actually an object
+    with a left and a top property, describing where the user scroll to,
+    when this page, you just went back to what's left.
+    */
+
+    /*
+    4 - This scroll behavior method should return an object describing where the browser should 
+    scroll  to, up on the page change. And here the object you return, should have a left and the top 
+    property.Just as the safe position has it, when it is available.
+    */
+
+    //5- we can see to saved psition and check if its present we'll move to its prev  position else
+
+    if (savedPosition) return savedPosition;
+    else
+      return {
+        // got to the top
+        left: 0,
+        top: 0,
+      };
+    //this will scroll to top
+  },
 });
 
 const app = createApp(App);
@@ -82,9 +88,3 @@ const app = createApp(App);
 app.use(router);
 
 app.mount('#app');
-
-/*
-6 - So named router views can be helpful to allow you to construct more complex user interfaces
-where you wanna load more than one component for a given path.
-For example, to not just have flexible main pages, but all the flexible footers.
-*/

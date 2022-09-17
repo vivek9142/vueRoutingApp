@@ -1,11 +1,9 @@
 <template>
   <the-navigation></the-navigation>
   <main>
-    <!--2- this unnamed router-view is default router -->
     <router-view></router-view>
   </main>
   <footer>
-    <!--3 -  setting router-view as footer -->
     <router-view name="footer"></router-view>
   </footer>
 </template>
