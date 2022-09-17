@@ -9,9 +9,6 @@
         :role="member.role"
       ></user-item>
     </ul>
-    <!-- if you're another route another than team 2 members it will not do anything
-      except changing url
-     -->
     <router-link to='/teams/t2'>Go to team 2</router-link>
   </section>
 </template>
@@ -20,12 +17,6 @@
 import UserItem from '../users/UserItem.vue';
 
 export default {
-  /*1-there is another method for updating team id on url change we can pass them as props*/ 
-
-   /*
-  4 - now, this component TeamMembers is more reusable, because now we can use it anywhere,
-  as long as we provide this prop, it's not strictly tied to routing anymore.
-  */
   props:['teamId'],
   inject:['users','teams'],
   components: {
