@@ -11,16 +11,11 @@ const router = createRouter({
   routes: [
     { path: '/teams', component: TeamsList },
     { path: '/users', component: UsersList },
-    // add dynamic id
-    { path: '/teams/:teamId', component: TeamMembers },
-    /* new route should be before dynamic id
-    this route will become active if the user enters /teams and then anything thereafter,
-    therefore the order matters by the way,if you had another route here /teams/new,
-    so not a dynamic segment, but simply the text new,you should put this first because otherwise 
-    this path here this route would match this route as well, because new would be interpreted as a 
-    team ID.
+    { path: '/teams/:teamId', component: TeamMembers, props: true },
+    /*
+    3 - the teamid on passing as props will give error since it isn't passing props to component
+    from router. so we need to enable it in to send props.
     */
-    // { path: '/teams/new' },
   ],
 });
 

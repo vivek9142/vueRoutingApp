@@ -20,6 +20,13 @@
 import UserItem from '../users/UserItem.vue';
 
 export default {
+  /*1-there is another method for updating team id on url change we can pass them as props*/ 
+
+   /*
+  4 - now, this component TeamMembers is more reusable, because now we can use it anywhere,
+  as long as we provide this prop, it's not strictly tied to routing anymore.
+  */
+  props:['teamId'],
   inject:['users','teams'],
   components: {
     UserItem
@@ -31,8 +38,8 @@ export default {
     };
   },
   methods:{
-    loadTeamMembers(route){
-      const teamId = route.params.teamId;
+    loadTeamMembers(teamId){
+      // const teamId = route.params.teamId;
     const selectedTeam = this.teams.find(team => team.id === teamId);
 
     const members = selectedTeam.members;
@@ -47,28 +54,12 @@ export default {
     }
   },
   created(){
-    /* the route param change in every url change so we can watch on changes in route */
-    // will add this in new method so that we can change routein url change
-
-    // const teamId = this.$route.params.teamId;
-    // const selectedTeam = this.teams.find(team => team.id === teamId);
-
-    // const members = selectedTeam.members;
-    // const selectedMembers = [];
-
-    // for(const member of members){
-    //   const selectedUser = this.users.find(user => user.id === member);
-    //   selectedMembers.push(selectedUser);
-    // }
-    // this.members = selectedMembers;
-    // this.teamName = selectedTeam.name;
-
-    this.loadTeamMembers(this.$route);
+    this.loadTeamMembers(this.teamId);
   },
   watch:{
-    /*now we're watching changes in routes*/
-    $route(newRoute){
-      this.loadTeamMembers(newRoute);
+    //2- adding new watch for teamid 
+    teamId(newId){
+      this.loadTeamMembers(newId);
     }
   }
 };
