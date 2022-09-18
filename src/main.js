@@ -54,32 +54,24 @@ const router = createRouter({
   },
 });
 
-/*
-This beforeEach function here will run on every navigation action,
-no matter which route is being used, no matter from which route we go to which other route,
-this will always run. 
-
-Sometimes this is what you need, sometimes it's not,sometimes you just wanna protect individual 
-routes. You could do this, of course,with a if check here, where you check your to and from route 
-objects, to also run different logic based on different routes.
-
-But you can also set up the beforeEach navigation guard on single routes.
-
-2 - Here in your component usersList config object, you can add all those view lifecycle methods,
-like created or mounted and you can also add the beforeRouteEnter method.
-If you use the view router, which we do, this will be called before navigation
-to this component is confirmed. And here again, you get to, from and next,
-and therefore we can do what he did before.
-We can console.log('usersList Cmp beforeRouteEnter').
-We can then console.log(to, from) of course and we can call next or run any logic we wanna run
-to confirm or deny navigation to next or redirect the user.
-
-4 -Global guard is always first, then the route conflict level and then the component level.
-that's the order in which these navigation guards execute.
-*/
-
 router.beforeEach(function (_, _2, next) {
   next();
+});
+
+/*
+there is another global guard we can add on the router
+and that is the afterEach guard. This also wants a function,
+this also it gets the to and from argument, but not the next function because afterEach
+will only run once a navigation has been confirmed. So in here, you can't change that anymore.
+You can't deny a navigation. You can only do this in the before hooks,in the before guards.
+
+The afterEach guard could be nice for sending analytics data to your own server, for example,
+to log every navigation action and log when a user changes pages.
+*/
+router.afterEach(function (to, from) {
+  //sending analytics data
+  console.log('global afterEach');
+  console.log(to, from);
 });
 
 const app = createApp(App);
