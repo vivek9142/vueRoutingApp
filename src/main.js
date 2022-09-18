@@ -58,16 +58,6 @@ router.beforeEach(function (_, _2, next) {
   next();
 });
 
-/*
-there is another global guard we can add on the router
-and that is the afterEach guard. This also wants a function,
-this also it gets the to and from argument, but not the next function because afterEach
-will only run once a navigation has been confirmed. So in here, you can't change that anymore.
-You can't deny a navigation. You can only do this in the before hooks,in the before guards.
-
-The afterEach guard could be nice for sending analytics data to your own server, for example,
-to log every navigation action and log when a user changes pages.
-*/
 router.afterEach(function (to, from) {
   //sending analytics data
   console.log('global afterEach');
