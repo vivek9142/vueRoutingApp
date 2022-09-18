@@ -10,19 +10,16 @@ import TeamsFooter from './components/teams/TeamsFooter.vue';
 import UsersFooter from './components/users/UserFooter.vue';
 
 /*
-1- Let's start with controlling the scrolling behavior.Well, let's say we're on the Teams page,
-we load our team here and then I scroll down so that I can load the Client Consulting team.
-If I click that, of course you component updates, but I have to scroll up there to see that.
-Maybe we want to scroll up there automatically, when we switch the route here.
+Navigation guards can be useful if you add features like authentication where you, for example,
+want to avoid that a user is able to access a certain route if he or she is not authenticated,
+but they can also be useful to simply be aware of changing pages in case you wanna run some code 
+there or they can be useful to ensure that a user doesn't accidentally navigate away from a page
+where he or she has unsaved edits in a forum, 
 
-That could be something we might wanna do, in general, maybe. Whenever we switch a route,
-we wanna scroll to top so that the user always sees the full new page and isn't stuck somewhere 
-down the page. And that's something we can add with the vue router.
-
-In main js, where we create our router, besides registering all those routes
-and then setting some global conflict like the link active class.
-You can also add a scroll behavior property.
-
+I'm talking about functions, methods, which are called automatically by view router
+when a page changes or to be precise, when a navigation action started.
+For example, on the router we're creating in main JS on this main router before we pass it to 
+our view app, we can call before each, like this. 
 */
 
 const router = createRouter({
@@ -54,33 +51,38 @@ const router = createRouter({
     },
     { path: '/:notFound(.*)', component: NotFound },
   ],
-  //2- adding scrollBehaviour
-  scrollBehavior(to, from, savedPosition) {
-    // console.log(to, from, savedPosition);
-    /*
-    3 - saved position is null here, because saved position is only set,
-    if you're using the back button. Then you see saved position is actually an object
-    with a left and a top property, describing where the user scroll to,
-    when this page, you just went back to what's left.
-    */
-
-    /*
-    4 - This scroll behavior method should return an object describing where the browser should 
-    scroll  to, up on the page change. And here the object you return, should have a left and the top 
-    property.Just as the safe position has it, when it is available.
-    */
-
-    //5- we can see to saved psition and check if its present we'll move to its prev  position else
-
+  scrollBehavior(_, _2, savedPosition) {
     if (savedPosition) return savedPosition;
     else
       return {
-        // got to the top
         left: 0,
         top: 0,
       };
-    //this will scroll to top
   },
+});
+
+/*
+1 - Before each is a build in method and it wants a function as an argument.
+Before each once a function as an argument. And this function will be called by the view router
+whenever we navigate from one page to another. Before each navigation action, this function will be 
+called. And this function will then receive three arguments from your router
+TO, which is the route object off the page we're going to, 
+FROM, which is the route object of the page where coming from and 
+NEXT, which is a function which we have to call to either confirm or cancel this navigation action.
+*/
+
+router.beforeEach(function (to, from, next) {
+  console.log('global before each');
+  console.log(to, from);
+  // next(false); // if next is called so you're allowing to pass to next route but if fale is passed
+  //then it will disallow it.
+  // next('/users'); //we can sent routes to it to which it will navigate to.
+
+  //we need to check condition before making redirection
+  // if (to.name === 'team-members') next();
+  // else next({ name: 'team-members', params: { teamId: 't2' } }); //this will trigger infinite redirection
+
+  next();
 });
 
 const app = createApp(App);
