@@ -9,19 +9,6 @@ import NotFound from './components/nav/NotFound.vue';
 import TeamsFooter from './components/teams/TeamsFooter.vue';
 import UsersFooter from './components/users/UserFooter.vue';
 
-/*
-Navigation guards can be useful if you add features like authentication where you, for example,
-want to avoid that a user is able to access a certain route if he or she is not authenticated,
-but they can also be useful to simply be aware of changing pages in case you wanna run some code 
-there or they can be useful to ensure that a user doesn't accidentally navigate away from a page
-where he or she has unsaved edits in a forum, 
-
-I'm talking about functions, methods, which are called automatically by view router
-when a page changes or to be precise, when a navigation action started.
-For example, on the router we're creating in main JS on this main router before we pass it to 
-our view app, we can call before each, like this. 
-*/
-
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -48,6 +35,12 @@ const router = createRouter({
         default: UsersList,
         footer: UsersFooter,
       },
+      //1- beforeEnter to guard users specific route
+      // beforeEnter(to, from, next) {
+      //   console.log('users before enter');
+      //   console.log(to, from);
+      //   next();
+      // },
     },
     { path: '/:notFound(.*)', component: NotFound },
   ],
@@ -62,26 +55,30 @@ const router = createRouter({
 });
 
 /*
-1 - Before each is a build in method and it wants a function as an argument.
-Before each once a function as an argument. And this function will be called by the view router
-whenever we navigate from one page to another. Before each navigation action, this function will be 
-called. And this function will then receive three arguments from your router
-TO, which is the route object off the page we're going to, 
-FROM, which is the route object of the page where coming from and 
-NEXT, which is a function which we have to call to either confirm or cancel this navigation action.
+This beforeEach function here will run on every navigation action,
+no matter which route is being used, no matter from which route we go to which other route,
+this will always run. 
+
+Sometimes this is what you need, sometimes it's not,sometimes you just wanna protect individual 
+routes. You could do this, of course,with a if check here, where you check your to and from route 
+objects, to also run different logic based on different routes.
+
+But you can also set up the beforeEach navigation guard on single routes.
+
+2 - Here in your component usersList config object, you can add all those view lifecycle methods,
+like created or mounted and you can also add the beforeRouteEnter method.
+If you use the view router, which we do, this will be called before navigation
+to this component is confirmed. And here again, you get to, from and next,
+and therefore we can do what he did before.
+We can console.log('usersList Cmp beforeRouteEnter').
+We can then console.log(to, from) of course and we can call next or run any logic we wanna run
+to confirm or deny navigation to next or redirect the user.
+
+4 -Global guard is always first, then the route conflict level and then the component level.
+that's the order in which these navigation guards execute.
 */
 
-router.beforeEach(function (to, from, next) {
-  console.log('global before each');
-  console.log(to, from);
-  // next(false); // if next is called so you're allowing to pass to next route but if fale is passed
-  //then it will disallow it.
-  // next('/users'); //we can sent routes to it to which it will navigate to.
-
-  //we need to check condition before making redirection
-  // if (to.name === 'team-members') next();
-  // else next({ name: 'team-members', params: { teamId: 't2' } }); //this will trigger infinite redirection
-
+router.beforeEach(function (_, _2, next) {
   next();
 });
 
